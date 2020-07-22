@@ -1,4 +1,4 @@
-pool: az-tools-pool
+pool: az-tools-agent-pool
 
 #variables:
 #- group: build-vars-common

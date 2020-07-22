@@ -3,9 +3,9 @@
 #set -exuo pipefail
 set -euo pipefail
 
-green=$(tput setaf 2)
-cyan=$(tput setaf 6)
-normal=$(tput sgr0)
+#green=$(tput setaf 2)
+#cyan=$(tput setaf 6)
+#normal=$(tput sgr0)
 
 CONJUR_SERVER_DNS=dapmaster.conjur.dev
 conjur_host=azure-apps
@@ -32,19 +32,19 @@ function getConjurTokenWithAzureIdentity() {
 }
 
 function getAzureAccessToken(){
-    printf "\n\n%40s" "${normal}Retrieving Azure access token from $azure_token_endpoint..."
+    printf "\n\n%40s" "Retrieving Azure access token from $azure_token_endpoint..."
 
     # Get an Azure access token
     azure_access_token=$(curl -s\
       "$azure_token_endpoint" \
       -H Metadata:true -s | jq -r '.access_token')
 
-    printf "\n%40s\n\n" "${cyan}$azure_access_token${normal}"
+    printf "\n%40s\n\n" "$azure_access_token"
 }
 
 function getConjurToken() {
     # Get a Conjur access token for host azure-apps/system-assigned-identity-app or user-assigned-identity-app using the Azure token details
-    printf "\n%s%s%s\n" "${normal}Get Conjur access token for " "${cyan}$conjur_role " "${normal}using its Azure access token..."
+    printf "\n%s%s%s\n" "Get Conjur access token for " "$conjur_role " "using its Azure access token..."
 
     authn_azure_response=$(curl -sk -X POST \
       -H "Content-Type: application/x-www-form-urlencoded" \
@@ -53,17 +53,17 @@ function getConjurToken() {
 
     conjur_access_token=$(echo -n "$authn_azure_response" | base64 | tr -d '\r\n')
 
-    printf "%s\n\n" "${cyan}$conjur_access_token"
+    printf "%s\n\n" "$conjur_access_token"
 }
 
 function getConjurSecret(){
-    printf "%s\n" "${normal}Retrieve a secret using the Conjur access token..."
+    printf "%s\n" "Retrieve a secret using the Conjur access token..."
 
     # Retrieve a Conjur secret using the authn-azure Conjur access token
     secret=$(curl -sk -H "Authorization: Token token=\"$conjur_access_token\"" \
       "https://dapmaster.conjur.dev:443/secrets/cyberark/variable/$secret_id")
 
-    printf "%s%s%s\n\n" "${normal}Retrieved secret " "${green}${secret} " "${normal}from Conjur."
+    printf "%s%s%s\n\n" "Retrieved secret " "${secret} " "from Conjur."
 }
 
 main

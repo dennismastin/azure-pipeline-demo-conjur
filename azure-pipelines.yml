@@ -1,15 +1,15 @@
-pool: NewPool
+pool: az-tools-agent-pool
 
-variables:
-- group: build-vars-common
-- group: build-vars-apikey
+#variables:
+#- group: build-vars-common
+#- group: build-vars-apikey
 
 steps:
-- task: DownloadSecureFile@1
-  name: conjurCert
-  displayName: 'Download CA certificate'
-  inputs:
-    secureFile: 'conjur-dev.pem'
+#- task: DownloadSecureFile@1
+#  name: conjurCert
+#  displayName: 'Download CA certificate'
+#  inputs:
+#    secureFile: 'conjur-dev.pem'
 
 - bash: |
     export foo=$(./test.sh)

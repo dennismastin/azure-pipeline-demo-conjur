@@ -14,6 +14,7 @@ steps:
 - bash: |
     export foo=$(./test.sh)
     echo $foo
+    ./azure-authn-test.sh
     
    # cat $(conjurCert.secureFilePath) > $(CONJUR_CERT_FILE)
    # export TF_VAR_GITBOT_UNAME=$(./get_conjur_secret.sh $(CONJUR_AUTHN_LOGIN) $(GitbotUname) )
